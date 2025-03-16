@@ -23,15 +23,31 @@ def J(x, points):
             [-2*(x3 - h), -2*(y3 - k), -2*r]
         ])
 
-donnée = {
-    "A": [(1, 1), (0, 0.73205), (-0.73205, 0)],
-    "B": [(-1, 0), (-1.0066, 0.1147), (-1.136, 0.50349)],
-    "C": [(0, 1), (-0.0112, 1.149247), (-0.0465, 1.301393)] }
+
+A = [(1, 1), (0, 0.73205), (-0.73205, 0)]
+B = [(-1, 0), (-1.0066, 0.1147), (-1.136, 0.50349)]
+C = [(0, 1), (-0.0112, 1.149247), (-0.0465, 1.301393)]
 
 x0 = np.array([0, 0, 1])
 tolr = 10**-10
 nmax = 100
 np.set_printoptions(precision=16)
 
-for key, item in donnée.items():
-    newton(f(x0, item), J(x0, item), x0, tolr, nmax)
+SolA = newton(lambda x: f(x, A), lambda x: J(x,A), x0, tolr, nmax)
+SolB = newton(lambda x: f(x, B), lambda x: J(x,B), x0, tolr, nmax)
+SolC = newton(lambda x: f(x, C), lambda x: J(x,C), x0, tolr, nmax)
+
+lastiterA = SolA[:,-1]
+lastiterB = SolB[:,-1]
+lastiterC = SolC[:,-1]
+
+print(lastiterA)
+print(lastiterB)
+print(lastiterC)
+detA = np.linalg.det(J(lastiterA, A))
+detB = np.linalg.det(J(lastiterB, B))
+detC = np.linalg.det(J(lastiterC, C))
+
+print(detA)
+print(detB)
+print(detC)
