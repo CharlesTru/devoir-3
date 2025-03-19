@@ -41,16 +41,16 @@ lastiterA = SolA[:,-1]
 lastiterB = SolB[:,-1]
 lastiterC = SolC[:,-1]
 
-print(lastiterA)
-print(lastiterB)
-print(lastiterC)
+print(f'A= {lastiterA}')
+print(f'B= {lastiterB}')
+print(f'C= {lastiterC}')
 detA = np.linalg.det(J(lastiterA, A))
 detB = np.linalg.det(J(lastiterB, B))
 detC = np.linalg.det(J(lastiterC, C))
 
-print(detA)
-print(detB)
-print(detC)
+print(f'Det_A: {detA}')
+print(f'Det_B: {detB}')
+print(f'Det_c: {detC}')
 
 En_A = np.linalg.norm(SolA[:,1:] - SolA[:,:-1], axis=0)
 En_B = np.linalg.norm(SolB[:,1:] - SolB[:,:-1], axis=0)
@@ -109,7 +109,7 @@ n_values = np.arange(10, 151, 10)
 cond_values = []
 
 for n in n_values:
-    Qn = np.array([-1 + 2*i/n for i in range(n+1)])
+    Qn = np.linspace(-1,1,n+1) 
     V = vandermonde_modifiee(Qn)
     cond = np.linalg.cond(V, 'fro')
     cond_values.append(cond)
@@ -135,7 +135,7 @@ print(f"Valeur de b estimée : {b}")
 # Figure 4
 n_range = np.arange(1, 101)
 plt.figure(figsize=(10, 6))
-plt.semilogy(n_range, b**n_range, 'b-', label=f'b^n(b≈2.828)')
+plt.semilogy(n_range, b**n_range, 'b-', label=f'b^n(b≈{b:.3f})')
 plt.semilogy(n_range, 2**n_range, 'r', label='2^n')
 plt.grid(True)
 plt.xlabel('n')
@@ -149,7 +149,7 @@ errors = []
 eps_machine = np.finfo(np.float64).eps
 
 for n in n_values_c:
-    Qn = np.array([-1 + 2*i/n for i in range(n+1)])
+    Qn = np.linspace(-1, 1, n+1)
     V = vandermonde_modifiee(Qn)
     b_vec = np.ones(n+1)
     x_true = np.zeros(n+1); x_true[-1] = 1
@@ -161,7 +161,7 @@ for n in n_values_c:
 plt.figure(figsize=(10, 6))
 plt.semilogy(n_values_c, errors, 'b.-', label='Erreur relative')
 plt.semilogy(n_values_c, eps_machine * b**n_values_c, 'r', 
-             label=f'ε_m * b^n (b≈2.828)')
+             label=f'ε_m * b^n (b≈{b:.3f})')
 plt.grid(True)
 plt.xlabel('n')
 plt.ylabel('Erreur (échelle log)')
